@@ -66,6 +66,10 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.usb.id.ums_adb=3008 \
     ro.usb.vid=2a96
 
+# Doze mode
+PRODUCT_PACKAGES += \
+    YUDoze
+
 # GPS
 PRODUCT_PACKAGES += \
     gps.msm8916
