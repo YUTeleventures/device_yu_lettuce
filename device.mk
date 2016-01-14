@@ -67,6 +67,10 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.usb.id.ums_adb=3008 \
     ro.usb.vid=2a96
 
+# libhealthd library as the supplement of off-mode charging
+PRODUCT_PACKAGES += \
+    libhealthd.msm
+
 # Doze mode
 PRODUCT_PACKAGES += \
     YUDoze
