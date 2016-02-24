@@ -71,10 +71,6 @@ ADDITIONAL_DEFAULT_PROPERTIES += \
 PRODUCT_PACKAGES += \
     libhealthd.msm
 
-# Doze mode
-PRODUCT_PACKAGES += \
-    YUDoze
-
 # GPS
 PRODUCT_PACKAGES += \
     gps.msm8916
