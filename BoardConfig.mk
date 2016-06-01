@@ -23,9 +23,9 @@ TARGET_SPECIFIC_HEADER_PATH := $(DEVICE_PATH)/include
 
 # Kernel
 ifneq ($(FORCE_32_BIT),true)
-TARGET_KERNEL_CONFIG := cyanogenmod_lettuce-64_defconfig
+TARGET_KERNEL_CONFIG := yu_lettuce-64_defconfig
 else
-TARGET_KERNEL_CONFIG := cyanogenmod_lettuce_defconfig
+TARGET_KERNEL_CONFIG := yu_lettuce_defconfig
 endif
 
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
@@ -36,14 +36,6 @@ BOARD_CAMERA_SENSORS := \
     ov8865_q8v18a
 TARGET_USE_VENDOR_CAMERA_EXT := true
 USE_DEVICE_SPECIFIC_CAMERA := true
-
-# Charger
-BOARD_CHARGER_DISABLE_INIT_BLANK := true
-BOARD_HAL_STATIC_LIBRARIES := libhealthd.msm
-
-# CMHW
-BOARD_HARDWARE_CLASS += $(DEVICE_PATH)/cmhw/src
-TARGET_TAP_TO_WAKE_NODE := "/sys/devices/soc.0/78b9000.i2c/i2c-5/5-0040/gesture"
 
 # CPU
 TARGET_CPU_CORTEX_A53 := true
@@ -78,3 +70,9 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
 # inherit from the proprietary version
 -include vendor/yu/lettuce/BoardConfigVendor.mk
+
+#Enable Optimizations.
+CLANG_O3 := true
+STRICT_ALIASING := true
+GRAPHITE_OPTS := true
+ENABLE_GCCONLY := true
