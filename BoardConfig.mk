@@ -27,6 +27,7 @@ TARGET_KERNEL_CONFIG := yu_lettuce-64_defconfig
 else
 TARGET_KERNEL_CONFIG := yu_lettuce_defconfig
 endif
+TARGET_KERNEL_SOURCE := kernel/yu/lettuce
 
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(DEVICE_PATH)/bluetooth
 
