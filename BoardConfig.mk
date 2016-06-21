@@ -71,9 +71,3 @@ TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
 # inherit from the proprietary version
 -include vendor/yu/lettuce/BoardConfigVendor.mk
-
-#Enable Optimizations.
-CLANG_O3 := true
-STRICT_ALIASING := true
-GRAPHITE_OPTS := true
-ENABLE_GCCONLY := true
