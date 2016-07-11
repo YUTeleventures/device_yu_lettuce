@@ -1,1 +1,4 @@
 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0040/gesture u:object_r:touchpanel_sysfs:s0
+
+# Factory Reset Protection
+/dev/block/bootdevice/by-name/config u:object_r:frp_block_device:s0

@@ -22,3 +22,6 @@ ro.telephony.default_network=9,1
 
 # relax sensor fusion mag field filter
 ro.fusion.magfield.max=250
+
+# Factory Reset Protection
+ro.frp.pst=/dev/block/bootdevice/by-name/config
