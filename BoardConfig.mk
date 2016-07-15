@@ -69,5 +69,8 @@ BOARD_SEPOLICY_DIRS += \
 
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
 
+# Tap to wake
+TARGET_TAP_TO_WAKE_NODE := "/sys/devices/soc.0/78b9000.i2c/i2c-5/5-0040/gesture"
+
 # inherit from the proprietary version
 -include vendor/yu/lettuce/BoardConfigVendor.mk
