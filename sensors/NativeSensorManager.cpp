@@ -441,11 +441,12 @@ int NativeSensorManager::getDataInfo() {
 			 * magnetometer. Some sensor vendors provide such implementations. The pseudo
 			 * gyroscope sensor is low cost but the performance is worse than the actual
 			 * gyroscope. So disable it for the system with actual gyroscope. */
+#ifdef ENABLE_DEPRECATED_VITRUAL_SENSOR
 			if (!initVirtualSensor(&context[mSensorCount], SENSORS_HANDLE(mSensorCount), dep,
 						virtualSensorList[PSEUDO_GYROSCOPE])) {
 				mSensorCount++;
 			}
-
+#endif
 			/* For linear acceleration */
 			if (!initVirtualSensor(&context[mSensorCount], SENSORS_HANDLE(mSensorCount), dep,
 						virtualSensorList[LINEAR_ACCELERATION])) {
