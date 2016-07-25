@@ -41,8 +41,10 @@ __BEGIN_DECLS
 #define SENSORS_GYROSCOPE_HANDLE		5
 #define SENSORS_PRESSURE_HANDLE			6
 
+#define SENSOR_TYPE_POCKET			(SENSOR_TYPE_DEVICE_PRIVATE_BASE + 1)
+
 #define MAX_SENSORS		(20)
-#define SYSFS_MAXLEN		(20)
+#define SYSFS_MAXLEN		(50)
 #define SYSFS_CLASS		"/sys/class/sensors/"
 #define SYSFS_NAME		"name"
 #define SYSFS_VENDOR		"vendor"
@@ -57,6 +59,12 @@ __BEGIN_DECLS
 #define SYSFS_POLL_DELAY	"poll_delay"
 #define SYSFS_CALIBRATE		"calibrate"
 #define SYSFS_CAL_PARAMS	"cal_params"
+#define SYSFS_FIFORESVCNT	"fifo_reserved_event_count"
+#define SYSFS_FIFOMAXCNT	"fifo_max_event_count"
+#define SYSFS_MAXLATENCY	"max_latency"
+#define SYSFS_MAXDELAY		"max_delay"
+#define SYSFS_FLUSH		"flush"
+#define SYSFS_FLAGS		"flags"
 
 #define COMPASS_VENDOR_AKM		"AKM"
 #define COMPASS_VENDOR_ALPS		"Alps"
@@ -87,6 +95,7 @@ __BEGIN_DECLS
 #define STEP_COUNTER_NAME		"step_counter"
 #define STEP_DETECTOR_NAME		"step_detector"
 #define GEOMAGNETIC_ROTATION_VECTOR_NAME	"geomagnetic_field"
+#define POCKET_NAME			"pocket"
 
 /* The hardware sensor type supported by HAL */
 #define SUPPORTED_SENSORS_TYPE	( \
@@ -143,6 +152,8 @@ static inline const char* type_to_name(int type)
 			return STEP_COUNTER_NAME;
 		case SENSOR_TYPE_GEOMAGNETIC_ROTATION_VECTOR:
 			return GEOMAGNETIC_ROTATION_VECTOR_NAME;
+		case SENSOR_TYPE_POCKET:
+			return POCKET_NAME;
 		default:
 			return "";
 	}

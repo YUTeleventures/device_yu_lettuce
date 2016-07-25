@@ -45,11 +45,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 struct input_event;
 
 class VirtualSensor : public SensorBase {
-	int mEnabled;
-	sensors_vec_t dm;
-	sensors_vec_t da;
-	bool mHasPendingEvent;
-	int64_t mEnabledTime;
+	sensors_event_t mLastEvent;
+	bool reportLastEvent;
 	const SensorContext *context;
 	sensors_event_t mBuffer[MAX_EVENTS];
 	sensors_event_t* mRead;
