@@ -105,10 +105,6 @@ PRODUCT_PACKAGES += \
     fstab.qcom \
     init.target.rc
 
-# Recovery
-PRODUCT_EXTRA_RECOVERY_KEYS += \
-    $(LOCAL_PATH)/lettuce-releasekey
-
 # Thermals
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal_engine.conf:system/etc/thermal-engine.conf
