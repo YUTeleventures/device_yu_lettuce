@@ -3012,6 +3012,10 @@ int32_t QCameraParameters::setSceneMode(const QCameraParameters& params)
             if (strcmp(str, SCENE_MODE_HDR) == 0) {
                 // If HDR is set from client and the feature is
                 // not enabled in the backend, ignore it.
+
+                // There are two HDR modes sensor supported HDR mode and Software supported HDR
+                // mode, here we are enabling software HDR mode.
+                m_pCapability->qcom_supported_feature_mask|=((m_pCapability->qcom_supported_feature_mask)|1<<5);
                 if (m_pCapability->qcom_supported_feature_mask &
                      CAM_QCOM_FEATURE_SENSOR_HDR) {
                     CDBG_HIGH("%s: Sensor HDR mode Enabled",__func__);
@@ -3021,7 +3025,7 @@ int32_t QCameraParameters::setSceneMode(const QCameraParameters& params)
                             CAM_QCOM_FEATURE_HDR) {
                     CDBG_HIGH("%s: S/W HDR Enabled",__func__);
                     m_bSensorHDREnabled = false;
-                    m_bHDREnabled = true;
+                    m_bHDREnabled = false; // true
                 } else {
                     m_bSensorHDREnabled = false;
                     m_bHDREnabled = false;
