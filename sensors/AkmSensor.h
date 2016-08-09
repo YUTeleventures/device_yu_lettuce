@@ -49,6 +49,7 @@ public:
 
 private:
 	int update_delay();
+	uint32_t mEnabled;
 	uint32_t mPendingMask;
 	InputEventCircularReader mInputReader;
 	sensors_event_t mPendingEvents[numSensors];

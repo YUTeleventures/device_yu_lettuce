@@ -76,6 +76,7 @@ static const int input_report_type[SUPPORTED_LSENSOR_COUNT] = {
 
 LightSensor::LightSensor()
 : SensorBase(NULL, NULL),
+	  mEnabled(0),
 	  mInputReader(4),
 	  mHasPendingEvent(false),
 	  sensor_index(-1)
@@ -110,6 +111,7 @@ LightSensor::LightSensor()
 
 LightSensor::LightSensor(char *name)
 	: SensorBase(NULL, data_device_name[GENERIC_LS]),
+	  mEnabled(0),
 	  mInputReader(4),
 	  mHasPendingEvent(false),
 	  sensor_index(GENERIC_LS)
@@ -130,7 +132,8 @@ LightSensor::LightSensor(char *name)
 }
 
 LightSensor::LightSensor(struct SensorContext *context)
-	: SensorBase(NULL, NULL, context),
+	: SensorBase(NULL, NULL),
+	  mEnabled(0),
 	  mInputReader(4),
 	  mHasPendingEvent(false),
 	  sensor_index(GENERIC_LS)
@@ -144,6 +147,7 @@ LightSensor::LightSensor(struct SensorContext *context)
 	strlcpy(input_sysfs_path, context->enable_path, sizeof(input_sysfs_path));
 	input_sysfs_path_len = strlen(input_sysfs_path);
 	mUseAbsTimeStamp = false;
+	enable(0, 1);
 }
 
 LightSensor::~LightSensor() {
@@ -213,14 +217,12 @@ int LightSensor::enable(int32_t, int en)
 			ALOGE("open %s failed.(%s)\n", input_sysfs_path, strerror(errno));
 			return -1;
 		}
-	} else if (flags) { /* already enabled */
-		mHasPendingEvent = true;
 	}
 	return 0;
 }
 
 bool LightSensor::hasPendingEvents() const {
-	return mHasPendingEvent || mHasPendingMetadata;
+	return mHasPendingEvent;
 }
 
 int LightSensor::readEvents(sensors_event_t* data, int count)
@@ -232,13 +234,6 @@ int LightSensor::readEvents(sensors_event_t* data, int count)
 		mHasPendingEvent = false;
 		mPendingEvent.timestamp = getTimestamp();
 		*data = mPendingEvent;
-		return mEnabled ? 1 : 0;
-	}
-
-	if (mHasPendingMetadata) {
-		mHasPendingMetadata--;
-		meta_data.timestamp = getTimestamp();
-		*data = meta_data;
 		return mEnabled ? 1 : 0;
 	}
 
@@ -256,26 +251,33 @@ int LightSensor::readEvents(sensors_event_t* data, int count)
 				mPendingEvent.light = convertEvent(event->value);
 			}
 		} else if (type == EV_SYN) {
-			switch ( event->code ) {
+			switch ( event->code ){
 				case SYN_TIME_SEC:
-					mUseAbsTimeStamp = true;
-					report_time = event->value*1000000000LL;
-					break;
+					{
+						mUseAbsTimeStamp = true;
+						report_time = event->value*1000000000LL;
+					}
+				break;
 				case SYN_TIME_NSEC:
-					mUseAbsTimeStamp = true;
-					mPendingEvent.timestamp = report_time+event->value;
-					break;
+					{
+						mUseAbsTimeStamp = true;
+						mPendingEvent.timestamp = report_time+event->value;
+					}
+				break;
 				case SYN_REPORT:
-					if(mUseAbsTimeStamp != true) {
-						mPendingEvent.timestamp = timevalToNano(event->time);
+					{
+						if (mEnabled && mUseAbsTimeStamp) {
+							*data++ = mPendingEvent;
+							numEventReceived++;
+							count--;
+							mUseAbsTimeStamp = false;
+						} else {
+							ALOGE_IF(!mUseAbsTimeStamp, "LightSensor:timestamp not received");
+						}
 					}
-					if (mEnabled) {
-						*data++ = mPendingEvent;
-						count--;
-						numEventReceived++;
-					}
-					break;
+				break;
 			}
+
 		} else {
 			ALOGE("LightSensor: unknown event (type=%d, code=%d)",
 					type, event->code);
